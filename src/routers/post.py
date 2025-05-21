@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 
-from mediaapp.models.post import (
+from src.models.post import (
     Comment,
     CommentIn,
     UserPost,
