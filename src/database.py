@@ -1,6 +1,7 @@
 import databases
 import sqlalchemy
-from config import config
+
+from src.config import config
 
 metadata = sqlalchemy.MetaData()
 
@@ -8,7 +9,7 @@ post_table = sqlalchemy.Table(
     "posts",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("body", sqlalchemy.String)
+    sqlalchemy.Column("body", sqlalchemy.String),
 )
 
 comment_table = sqlalchemy.Table(
@@ -16,7 +17,7 @@ comment_table = sqlalchemy.Table(
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
     sqlalchemy.Column("body", sqlalchemy.String),
-    sqlalchemy.Column("post_id", sqlalchemy.ForeignKey("posts.id"), nullable=False)
+    sqlalchemy.Column("post_id", sqlalchemy.ForeignKey("posts.id"), nullable=False),
 )
 
 engine = sqlalchemy.create_engine(
