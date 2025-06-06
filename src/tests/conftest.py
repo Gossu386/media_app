@@ -1,25 +1,31 @@
+import os
 from typing import AsyncGenerator, Generator
 
 import pytest
 from fastapi.testclient import TestClient
-from httpx import AsyncClient, ASGITransport
+from httpx import ASGITransport, AsyncClient
 
-from src.main import app
-from src.routers.post import comment_table, post_table
+os.environ["ENV_STATE"] = "test"
+from src.database import database # noqa: E402
+from src.main import app  # noqa: E402
+
 
 @pytest.fixture(scope="session")
 def anyio_backend():
     return "asyncio"
 
+
 @pytest.fixture(autouse=True)
 def client() -> Generator:
     yield TestClient(app)
 
+
 @pytest.fixture(autouse=True)
 async def db() -> AsyncGenerator:
-    post_table.clear()
-    comment_table.clear()
+    await database.connect()
     yield
+    await database.disconnect()
+
 
 @pytest.fixture()
 async def async_client(client) -> AsyncGenerator:
