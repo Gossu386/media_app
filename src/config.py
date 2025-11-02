@@ -15,7 +15,8 @@ class GlobalConfig(BaseConfig):
     DB_FORCE_ROLL_BACK: bool = (
         False  # the changes aren't written to database tak jak w testach
     )
-
+    LOGTAIL_API_KEY: Optional[str] = None
+    INGESTING_HOST: Optional[str] = None
 
 class DevConfig(GlobalConfig):
     model_config = SettingsConfigDict(env_prefix="DEV_")
