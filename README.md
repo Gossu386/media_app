@@ -9,7 +9,8 @@
 
 A modern social media application built with **FastAPI**, using **async**, **Pydantic**, **databases**, and **JWT-based authorization**.
 
-This project is based on code from [PacktPublishing/Mastering-REST-APIs-with-FastAPI](https://github.com/PacktPublishing/Mastering-REST-APIs-with-FastAPI) (MIT License).  
+This project is based on code from [PacktPublishing/Mastering-REST-APIs-with-FastAPI](https://github.com/PacktPublishing/Mastering-REST-APIs-with-FastAPI) (MIT License) and course Mastering REST APIs with FastAPI by PacktPublishing
+
 All modifications and additional features are made by Majki.
 
 ---
