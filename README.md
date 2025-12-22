@@ -3,7 +3,8 @@
 ![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.124-009688?style=for-the-badge&logo=fastapi&logoColor=white)
 ![Pytest](https://img.shields.io/badge/Tests-pytest-ED8B00?style=for-the-badge&logo=pytest&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-999999?style=for-the-badge&logo=opensourceinitiative&logoColor=white)
+[![License](https://img.shields.io/badge/License-MIT-999999?style=for-the-badge&logo=opensourceinitiative&logoColor=white)](LICENSE)
+
 
 
 A modern social media application built with **FastAPI**, using **async**, **Pydantic**, **databases**, and **JWT-based authorization**.
