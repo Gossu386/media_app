@@ -1,0 +1,29 @@
+[project]
+name = "media-app"
+version = "0.1.0"
+description = "Social media pytho app which uses fastapi framework"
+readme = "README.md"
+requires-python = ">=3.11.0"
+dependencies = [
+    "fastapi[standard]>=0.124.0",
+    "sqlalchemy",
+    "databases[aiosqlite]",
+    "python-dotenv",
+    "pydantic-settings",
+    "rich",
+    "asgi-correlation-id",
+    "python-json-logger",
+    "logtail-python",
+    "python-jose",
+    "python-multipart",
+    "passlib[bcrypt]",
+    "bcrypt<4.0.0",
+    "ruff",
+    "black",
+    "isort",
+    "pytest == 7.2.2",
+    "httpx",
+    "anyio == 3.6.2",
+    "pluggy == 1.0.0",
+    "pytest-mock"
+]

@@ -1,7 +1,9 @@
 import logging
+from typing import Annotated
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 
+from src.database import comment_table, database, post_table
 from src.models.post import (
     Comment,
     CommentIn,
@@ -9,12 +11,13 @@ from src.models.post import (
     UserPostIn,
     UserPostWithComments,
 )
-
-from src.database import database, comment_table, post_table
+from src.models.user import User
+from src.security import get_current_user
 
 router = APIRouter()
 
 logger = logging.getLogger(__name__)
+
 
 async def find_post(post_id: int):
     logger.info(f"Finding post with id {post_id}")
@@ -26,10 +29,12 @@ async def find_post(post_id: int):
 
 
 @router.post("/post", response_model=UserPost, status_code=201)
-async def create_post(post: UserPostIn):
+async def create_post(
+    post: UserPostIn, current_user: Annotated[User, Depends(get_current_user)]
+):
     logger.info("Creating post")
 
-    data = post.model_dump()
+    data = {**post.model_dump(), "user_id": current_user.id}
     query = post_table.insert().values(data)
 
     logger.debug(query)
@@ -49,14 +54,16 @@ async def get_all_posts():
 
 
 @router.post("/comment", response_model=Comment, status_code=201)
-async def create_comment(comment: CommentIn):
+async def create_comment(
+    comment: CommentIn, current_user: Annotated[User, Depends(get_current_user)]
+):
     logger.info("Create comment")
-    post = await find_post(comment.post_id)
 
+    post = await find_post(comment.post_id)
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
 
-    data = comment.model_dump()
+    data = {**comment.model_dump(), "user_id": current_user.id}
     query = comment_table.insert().values(data)
 
     logger.debug(query)
@@ -81,6 +88,5 @@ async def get_post_with_comments(post_id: int):
     post = await find_post(post_id)
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
-    
 
     return {"post": post, "comments": await get_comments_on_post(post_id)}
