@@ -170,7 +170,7 @@ cython_debug/
 
 # Ruff stuff:
 .ruff_cache/
-
+media_app.egg-info/
 # PyPI configuration file
 .pypirc
 
