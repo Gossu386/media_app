@@ -1,7 +1,7 @@
 [project]
 name = "media-app"
 version = "0.1.0"
-description = "Add your description here"
+description = "Social media pytho app which uses fastapi framework"
 readme = "README.md"
 requires-python = ">=3.11.0"
 dependencies = [
