@@ -34,7 +34,7 @@ async def create_post(
 ):
     logger.info("Creating post")
 
-    data = post.model_dump()
+    data = {**post.model_dump(), "user_id": current_user.id}
     query = post_table.insert().values(data)
 
     logger.debug(query)
@@ -63,7 +63,7 @@ async def create_comment(
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
 
-    data = comment.model_dump()
+    data = {**comment.model_dump(), "user_id": current_user.id}
     query = comment_table.insert().values(data)
 
     logger.debug(query)
