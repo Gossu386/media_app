@@ -104,7 +104,10 @@ async def test_get_all_posts(async_client: AsyncClient, created_post: dict):
 
 @pytest.mark.anyio
 async def test_create_comment(
-    async_client: AsyncClient, created_post: dict, registered_user: dict, logged_in_token: str
+    async_client: AsyncClient,
+    created_post: dict,
+    registered_user: dict,
+    logged_in_token: str,
 ):
     body = "Test Comment"
 

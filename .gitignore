@@ -184,3 +184,5 @@ __pycache__
 results.xml
 guide.md
 basic_logging.py
+pytest_txt_output.txt
+ruff_txt_output.txt

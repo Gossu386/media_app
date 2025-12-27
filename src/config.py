@@ -7,7 +7,9 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class BaseConfig(BaseSettings):
     ENV_STATE: Optional[str] = None
-    model_config = SettingsConfigDict(env_file=Path(__file__).resolve().parents[1] / ".env", extra="ignore")
+    model_config = SettingsConfigDict(
+        env_file=Path(__file__).resolve().parents[1] / ".env", extra="ignore"
+    )
 
 
 class GlobalConfig(BaseConfig):
@@ -17,6 +19,7 @@ class GlobalConfig(BaseConfig):
     )
     LOGTAIL_API_KEY: Optional[str] = None
     INGESTING_HOST: Optional[str] = None
+
 
 class DevConfig(GlobalConfig):
     model_config = SettingsConfigDict(env_prefix="DEV_")
