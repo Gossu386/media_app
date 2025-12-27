@@ -4,7 +4,7 @@ set -e # Exit on error
 OUT="ruff_txt_output.txt"
 echo "Ruff run at $(date)" > $OUT
 echo "" >> $OUT
-echo "PWD:" >> $OUT && pwd
+echo "PWD:" >> $OUT && pwd >> $OUT
 echo "" >> $OUT
 echo "ls:" >> $OUT && ls >> $OUT
 
