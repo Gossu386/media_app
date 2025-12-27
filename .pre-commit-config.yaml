@@ -1,0 +1,16 @@
+repos:
+  - repo: local
+    hooks:
+      - id: format-python
+        name: Format Python Code with Ruff
+        entry: bash src/scripts/pre-commit/format_code.sh
+        language: system
+        always_run: true
+        pass_filenames: false
+        
+      - id: Run pytest
+        name: Run Pytest
+        entry: bash src/scripts/pre-commit/run_tests.sh
+        language: system
+        always_run: true
+        pass_filenames: false
