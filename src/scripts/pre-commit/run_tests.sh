@@ -11,6 +11,6 @@ echo "" >> $OUT
 # Run tests using pytest
 echo "== Running Pytest ==" >> $OUT
 echo "" >> $OUT
-python -m pytest src/tests | tee -a "$OUT"
+pytest src/tests | tee -a "$OUT"
 echo "" >> $OUT
 echo "✓ Pytest completed successfully" >> $OUT
