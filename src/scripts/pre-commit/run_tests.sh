@@ -11,6 +11,6 @@ echo "" >> $OUT
 # Run tests using pytest
 echo "== Running Pytest ==" >> $OUT
 echo "" >> $OUT
-pytest src/tests | tee -a "$OUT"
+'.venv/bin/pytest' src/tests | tee -a "$OUT"
 echo "" >> $OUT
 echo "✓ Pytest completed successfully" >> $OUT

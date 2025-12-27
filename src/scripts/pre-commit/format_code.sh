@@ -11,8 +11,8 @@ echo "ls:" >> $OUT && ls >> $OUT
 # Format the code using ruff
 echo "== Ruff check --fix and format ==" >> $OUT
 echo "" >> $OUT
-ruff check src --fix | tee -a "$OUT"
+'.venv/bin/ruff' check src --fix | tee -a "$OUT"
 echo "" >> $OUT
-ruff format src | tee -a "$OUT"
+'.venv/bin/ruff' format src | tee -a "$OUT"
 
 echo "✓ Ruff formatting completed successfully" >> $OUT
