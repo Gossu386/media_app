@@ -79,7 +79,7 @@ def configure_logging() -> None:
                     "filters": ["correlation_id", "email_obfuscation"],
                     "source_token": config.LOGTAIL_API_KEY,
                     "host": config.INGESTING_HOST,
-                }
+                },
             },
             "loggers": {
                 "uvicorn": {"handlers": ["default", "rotating_file"], "level": "INFO"},
