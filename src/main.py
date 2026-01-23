@@ -5,8 +5,8 @@ from asgi_correlation_id import CorrelationIdMiddleware
 from fastapi import FastAPI, HTTPException
 from fastapi.exception_handlers import http_exception_handler
 
-from src.database import database
 from src.configs.logging_config import configure_logging
+from src.database import database
 from src.routers.post import router as post_router
 from src.routers.user import router as user_router
 

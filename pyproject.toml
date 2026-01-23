@@ -28,3 +28,16 @@ dependencies = [
     "pytest-mock",
     "pre-commit"
 ]
+
+[tool.ruff]
+# Configure import sorting to match isort behavior
+fix = true
+
+[tool.ruff.lint]
+# Enable import sorting
+select = ["I"]
+
+[tool.ruff.lint.isort]
+# Group imports into sections
+known-first-party = ["src"]
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
