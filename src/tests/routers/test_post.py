@@ -63,6 +63,13 @@ async def test_create_post(
         "body": body,
         "user_id": registered_user["id"],
     }.items() <= response.json().items()
+    # Verify response contains all expected fields
+    response_data = response.json()
+    assert "id" in response_data
+    assert "body" in response_data
+    assert "user_id" in response_data
+    assert isinstance(response_data["id"], int)
+    assert response_data["id"] > 0
 
 
 @pytest.mark.anyio
@@ -79,6 +86,10 @@ async def test_create_post_expired_token(
 
     assert response.status_code == 401
     assert "Token has expired" in response.json()["detail"]
+    # Verify error response structure
+    response_data = response.json()
+    assert "detail" in response_data
+    assert isinstance(response_data["detail"], str)
 
 
 @pytest.mark.anyio
@@ -92,6 +103,11 @@ async def test_create_post_missing_body(
     )
 
     assert response.status_code == 422
+    # Verify validation error structure
+    response_data = response.json()
+    assert "detail" in response_data
+    assert isinstance(response_data["detail"], list)
+    assert len(response_data["detail"]) > 0
 
 
 @pytest.mark.anyio
@@ -100,6 +116,13 @@ async def test_get_all_posts(async_client: AsyncClient, created_post: dict):
 
     assert response.status_code == 200
     assert response.json() == [created_post]
+    # Verify list structure and content
+    response_data = response.json()
+    assert isinstance(response_data, list)
+    assert len(response_data) == 1
+    assert response_data[0]["id"] == created_post["id"]
+    assert response_data[0]["body"] == created_post["body"]
+    assert response_data[0]["user_id"] == created_post["user_id"]
 
 
 @pytest.mark.anyio
@@ -123,6 +146,14 @@ async def test_create_comment(
         "post_id": created_post["id"],
         "user_id": registered_user["id"],
     }.items() <= response.json().items()
+    # Verify response contains all expected fields
+    response_data = response.json()
+    assert "id" in response_data
+    assert "body" in response_data
+    assert "post_id" in response_data
+    assert "user_id" in response_data
+    assert isinstance(response_data["id"], int)
+    assert response_data["id"] > 0
 
 
 @pytest.mark.anyio
@@ -133,6 +164,16 @@ async def test_get_comments_on_post(
 
     assert response.status_code == 200
     assert response.json() == [created_comment]
+    # Verify list structure and comment fields
+    response_data = response.json()
+    assert isinstance(response_data, list)
+    assert len(response_data) == 1
+    comment = response_data[0]
+    assert "id" in comment
+    assert "body" in comment
+    assert "post_id" in comment
+    assert "user_id" in comment
+    assert comment["post_id"] == created_post["id"]
 
 
 @pytest.mark.anyio
@@ -143,6 +184,10 @@ async def test_get_comments_on_post_empty(
 
     assert response.status_code == 200
     assert response.json() == []
+    # Verify empty list is returned
+    response_data = response.json()
+    assert isinstance(response_data, list)
+    assert len(response_data) == 0
 
 
 @pytest.mark.anyio
@@ -153,6 +198,15 @@ async def test_get_post_with_comments(
 
     assert response.status_code == 200
     assert response.json() == {"post": created_post, "comments": [created_comment]}
+    # Verify response structure has post and comments
+    response_data = response.json()
+    assert "post" in response_data
+    assert "comments" in response_data
+    assert isinstance(response_data["post"], dict)
+    assert isinstance(response_data["comments"], list)
+    assert response_data["post"]["id"] == created_post["id"]
+    assert len(response_data["comments"]) == 1
+    assert response_data["comments"][0]["id"] == created_comment["id"]
 
 
 @pytest.mark.anyio
@@ -162,3 +216,7 @@ async def test_get_missing_post_with_comments(
     response = await async_client.get("/post/2")
 
     assert response.status_code == 404
+    # Verify error response structure and message
+    response_data = response.json()
+    assert "detail" in response_data
+    assert response_data["detail"] == "Post not found"
