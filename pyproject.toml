@@ -20,7 +20,6 @@ dependencies = [
     "bcrypt<4.0.0",
     "ruff",
     "black",
-    "isort",
     "pytest == 7.2.2",
     "httpx",
     "anyio == 3.6.2",
@@ -28,3 +27,16 @@ dependencies = [
     "pytest-mock",
     "pre-commit"
 ]
+
+[tool.ruff]
+# Configure import sorting to match isort behavior
+fix = true
+
+[tool.ruff.lint]
+# Enable import sorting in addition to other linting rules
+extend-select = ["I"]
+
+[tool.ruff.lint.isort]
+# Group imports into sections
+known-first-party = ["src"]
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
