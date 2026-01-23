@@ -9,9 +9,9 @@ echo "" >> $OUT
 echo "ls:" >> $OUT && ls >> $OUT
 
 # Format the code using ruff
-echo "== Ruff check --fix and format ==" >> $OUT
+echo "== Ruff check and format ==" >> $OUT
 echo "" >> $OUT
-'.venv/bin/ruff' check src --fix | tee -a "$OUT"
+'.venv/bin/ruff' check src  | tee -a "$OUT"
 echo "" >> $OUT
 '.venv/bin/ruff' format src | tee -a "$OUT"
 
