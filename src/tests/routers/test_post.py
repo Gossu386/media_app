@@ -63,6 +63,7 @@ async def test_create_post(
         "body": body,
         "user_id": registered_user["id"],
     }.items() <= response.json().items()
+
     # Verify response contains all expected fields
     response_data = response.json()
     assert "id" in response_data
