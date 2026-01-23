@@ -25,7 +25,6 @@ async def test_register_user_already_exists(
     response = await register_user(
         async_client, registered_user["email"], registered_user["password"]
     )
-    assert "already exists" in response.json()["detail"]
     assert response.status_code == 400
     # Verify detailed error message content
     assert "An user with that email already exists" == response.json()["detail"]

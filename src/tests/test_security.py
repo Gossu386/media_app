@@ -15,8 +15,6 @@ def test_create_access_token():
     assert {"sub": "123"}.items() <= decoded_token.items()
     # Verify token contains expiration and is valid
     assert "exp" in decoded_token
-    assert "sub" in decoded_token
-    assert decoded_token["sub"] == "123"
     assert isinstance(decoded_token["exp"], int)
     assert decoded_token["exp"] > 0
 
