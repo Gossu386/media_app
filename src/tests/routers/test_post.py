@@ -35,6 +35,17 @@ async def create_comment(
     return response.json()
 
 
+async def like_post(
+    post_id: int, async_client: AsyncClient, logged_in_token: str
+) -> dict:
+    response = await async_client.post(
+        "/like",
+        json={"post_id": post_id},
+        headers={"Authorization": f"Bearer {logged_in_token}"},
+    )
+    return response.json()
+
+
 @pytest.fixture()
 async def created_post(async_client: AsyncClient, logged_in_token: str):
     return await create_post("Test Post", async_client, logged_in_token)
@@ -111,6 +122,28 @@ async def test_create_post_missing_body(
     assert "detail" in response_data
     assert isinstance(response_data["detail"], list)
     assert len(response_data["detail"]) > 0
+
+
+@pytest.mark.anyio
+async def test_like_post(
+    async_client: AsyncClient, created_post: dict, logged_in_token: str
+):
+    response = await async_client.post(
+        "/like",
+        json={"post_id": created_post["id"]},
+        headers={"Authorization": f"Bearer {logged_in_token}"},
+    )
+    assert response.status_code == 201
+    response_data = response.json()
+    assert {
+        "id": 1,
+        "post_id": created_post["id"],
+    }.items() <= response_data.items()
+    # Verify response contains all expected fields
+    assert isinstance(response_data["id"], int)
+    assert isinstance(response_data["post_id"], int)
+    assert isinstance(response_data["user_id"], int)
+    assert response_data["id"] > 0
 
 
 @pytest.mark.anyio
@@ -194,7 +227,10 @@ async def test_get_post_with_comments(
     response_data = response.json()
 
     # Verify response structure has post and comments
-    assert response_data == {"post": created_post, "comments": [created_comment]}
+    assert response_data == {
+        "post": {**created_post, "likes": 0},
+        "comments": [created_comment],
+    }
     assert "post" in response_data
     assert "comments" in response_data
     assert isinstance(response_data["post"], dict)
