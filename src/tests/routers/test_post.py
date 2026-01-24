@@ -227,7 +227,10 @@ async def test_get_post_with_comments(
     response_data = response.json()
 
     # Verify response structure has post and comments
-    assert response_data == {"post": created_post, "comments": [created_comment]}
+    assert response_data == {
+        "post": {**created_post, "likes": 0},
+        "comments": [created_comment],
+    }
     assert "post" in response_data
     assert "comments" in response_data
     assert isinstance(response_data["post"], dict)

@@ -11,6 +11,13 @@ class UserPost(UserPostIn):
     user_id: int
 
 
+class UserPostWithLikes(UserPost):
+    likes: int
+
+    class ConfigDict:
+        orm_mode = True
+
+
 class CommentIn(BaseModel):
     body: str
     post_id: int
@@ -23,7 +30,7 @@ class Comment(CommentIn):
 
 
 class UserPostWithComments(BaseModel):
-    post: UserPost
+    post: UserPostWithLikes
     comments: list[Comment]
 
 
