@@ -87,7 +87,6 @@ async def test_create_post_expired_token(
     )
     assert response.status_code == 401
 
-    # Verify error response structure and message
     response_data = response.json()
     logger.info(response_data)
     assert "detail" in response_data
@@ -106,6 +105,7 @@ async def test_create_post_missing_body(
     )
 
     assert response.status_code == 422
+
     # Verify validation error structure
     response_data = response.json()
     assert "detail" in response_data
@@ -118,14 +118,12 @@ async def test_get_all_posts(async_client: AsyncClient, created_post: dict):
     response = await async_client.get("/post")
 
     assert response.status_code == 200
-    assert response.json() == [created_post]
-    # Verify list structure and content
+
     response_data = response.json()
+
+    assert response_data == [created_post]
     assert isinstance(response_data, list)
     assert len(response_data) == 1
-    assert response_data[0]["id"] == created_post["id"]
-    assert response_data[0]["body"] == created_post["body"]
-    assert response_data[0]["user_id"] == created_post["user_id"]
 
 
 @pytest.mark.anyio
@@ -143,19 +141,18 @@ async def test_create_comment(
         headers={"Authorization": f"Bearer {logged_in_token}"},
     )
     assert response.status_code == 201
+    response_data = response.json()
     assert {
         "id": 1,
         "body": body,
         "post_id": created_post["id"],
         "user_id": registered_user["id"],
-    }.items() <= response.json().items()
+    }.items() <= response_data.items()
     # Verify response contains all expected fields
-    response_data = response.json()
-    assert "id" in response_data
-    assert "body" in response_data
-    assert "post_id" in response_data
-    assert "user_id" in response_data
     assert isinstance(response_data["id"], int)
+    assert isinstance(response_data["body"], str)
+    assert isinstance(response_data["post_id"], int)
+    assert isinstance(response_data["user_id"], int)
     assert response_data["id"] > 0
 
 
@@ -165,18 +162,11 @@ async def test_get_comments_on_post(
 ):
     response = await async_client.get(f"/post/{created_post['id']}/comment")
 
-    assert response.status_code == 200
-    assert response.json() == [created_comment]
-    # Verify list structure and comment fields
     response_data = response.json()
+    assert response.status_code == 200
+    assert response_data == [created_comment]
     assert isinstance(response_data, list)
     assert len(response_data) == 1
-    comment = response_data[0]
-    assert "id" in comment
-    assert "body" in comment
-    assert "post_id" in comment
-    assert "user_id" in comment
-    assert comment["post_id"] == created_post["id"]
 
 
 @pytest.mark.anyio
@@ -186,9 +176,10 @@ async def test_get_comments_on_post_empty(
     response = await async_client.get(f"/post/{created_post['id']}/comment")
 
     assert response.status_code == 200
-    assert response.json() == []
+
     # Verify empty list is returned
     response_data = response.json()
+    assert response_data == []
     assert isinstance(response_data, list)
     assert len(response_data) == 0
 
@@ -200,9 +191,10 @@ async def test_get_post_with_comments(
     response = await async_client.get(f"/post/{created_post['id']}")
 
     assert response.status_code == 200
-    assert response.json() == {"post": created_post, "comments": [created_comment]}
-    # Verify response structure has post and comments
     response_data = response.json()
+
+    # Verify response structure has post and comments
+    assert response_data == {"post": created_post, "comments": [created_comment]}
     assert "post" in response_data
     assert "comments" in response_data
     assert isinstance(response_data["post"], dict)
@@ -223,3 +215,4 @@ async def test_get_missing_post_with_comments(
     response_data = response.json()
     assert "detail" in response_data
     assert response_data["detail"] == "Post not found"
+    assert isinstance(response_data["detail"], str)
