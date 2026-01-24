@@ -43,6 +43,9 @@ async def test_get_user(registered_user: dict):
     assert hasattr(user, "password")
     assert user.id == registered_user["id"]
     assert isinstance(user.id, int)
+    assert user.id > 0
+    assert isinstance(user.email, str)
+    assert isinstance(user.password, str)
 
 
 @pytest.mark.anyio
@@ -63,6 +66,8 @@ async def test_authenticate_user(registered_user: dict):
     assert user.id == registered_user["id"]
     assert isinstance(user.id, int)
     assert user.id > 0
+    assert isinstance(user.email, str)
+    assert isinstance(user.password, str)
 
 
 @pytest.mark.anyio
