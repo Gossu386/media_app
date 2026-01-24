@@ -1,3 +1,5 @@
+import logging
+
 import pytest
 from httpx import AsyncClient
 
@@ -7,6 +9,8 @@ from src import security
 Pytests for creating posts/comments and getting them
 Using pytests.fixtures for injections called by fixture's function name
 """
+
+logger = logging.getLogger(__name__)
 
 
 async def create_post(
@@ -56,20 +60,17 @@ async def test_create_post(
         json={"body": body},
         headers={"Authorization": f"Bearer {logged_in_token}"},
     )
-
+    response_data = response.json()
     assert response.status_code == 201
     assert {
         "id": 1,
         "body": body,
         "user_id": registered_user["id"],
-    }.items() <= response.json().items()
+    }.items() <= response_data.items()
 
-    # Verify response contains all expected fields
-    response_data = response.json()
-    assert "id" in response_data
-    assert "body" in response_data
-    assert "user_id" in response_data
     assert isinstance(response_data["id"], int)
+    assert isinstance(response_data["body"], str)
+    assert isinstance(response_data["user_id"], int)
     assert response_data["id"] > 0
 
 
@@ -84,12 +85,13 @@ async def test_create_post_expired_token(
         json={"body": "Test Post"},
         headers={"Authorization": f"Bearer {token}"},
     )
-
     assert response.status_code == 401
-    assert "Token has expired" in response.json()["detail"]
-    # Verify error response structure
+
+    # Verify error response structure and message
     response_data = response.json()
+    logger.info(response_data)
     assert "detail" in response_data
+    assert "Token has expired" in response_data["detail"]
     assert isinstance(response_data["detail"], str)
 
 
