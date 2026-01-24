@@ -14,7 +14,6 @@ This project is based on code from [PacktPublishing/Mastering-REST-APIs-with-Fas
 All modifications and additional features are made by Gossu386.
 
 See license details in the [LICENSE](LICENSE) file.
----
 
 ## Features
 

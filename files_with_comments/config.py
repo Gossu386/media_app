@@ -48,7 +48,6 @@ config = get_config(BaseConfig().ENV_STATE)
 
 
 
-
 """
 This module defines configuration classes and a utility function for managing application settings
 using the `pydantic-settings` library. It supports different environments (development, production,
