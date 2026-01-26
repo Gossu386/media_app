@@ -8,16 +8,32 @@ def test_access_token():
     assert security.access_token_expire_minutes() == 30
 
 
+def test_confirmation_token():
+    assert security.confirm_token_expire_minutes() == 1440
+
+
 def test_create_access_token():
     token = security.create_access_token("123")
     decoded_token = jwt.decode(
         token, key=security.SECRET_KEY, algorithms=[security.ALGORITHM]
     )
-    assert {"sub": "123"}.items() <= decoded_token.items()
+    assert {"sub": "123", "type": "access"}.items() <= decoded_token.items()
     # Verify token contains expiration and is valid
     assert "exp" in decoded_token
     assert isinstance(decoded_token["exp"], int)
     assert decoded_token["exp"] > 0
+
+
+def test_create_confirmation_token():
+    token = security.create_confirmation_token("123")
+    decoded_token = jwt.decode(
+        token, key=security.SECRET_KEY, algorithms=[security.ALGORITHM]
+    )
+    assert {"sub": "123", "type": "confirmation"}.items() <= decoded_token.items()
+    # Verify token contains expiration and is valid
+    assert "exp" in decoded_token
+    assert isinstance(decoded_token["exp"], int)
+    assert decoded_token["exp"]
 
 
 def test_password_hashes():
@@ -105,5 +121,16 @@ async def test_get_current_user_invalid_token():
     with pytest.raises(security.HTTPException) as exc_info:
         await security.get_current_user("invalid token")
     # Verify exception details for invalid token
+    assert exc_info.value.status_code == 401
+    assert "Could not validate credentials" in exc_info.value.detail
+
+
+@pytest.mark.anyio
+async def test_get_current_user_wrong_type_token(registered_user: dict):
+    # Create a confirmation token instead of access token
+    token = security.create_confirmation_token(registered_user["email"])
+    with pytest.raises(security.HTTPException) as exc_info:
+        await security.get_current_user(token)
+    # Verify exception details for wrong type token
     assert exc_info.value.status_code == 401
     assert "Could not validate credentials" in exc_info.value.detail
