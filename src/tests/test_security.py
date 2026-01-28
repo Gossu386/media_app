@@ -135,5 +135,4 @@ async def test_get_current_user_wrong_type_token(registered_user: dict):
     assert exc_info.value.status_code == 401
     assert "Could not validate credentials" in exc_info.value.detail
 
-
-# Tabazko for daily contribution
+    # Tabazko for daily contribution
