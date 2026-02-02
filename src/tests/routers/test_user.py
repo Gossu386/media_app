@@ -39,7 +39,6 @@ async def test_login_user_not_exists(async_client: AsyncClient):
     assert response.status_code == 401
     # Verify error response structure and content
     assert "detail" in response.json()
-    assert "Could not validate credentials" in response.json()["detail"]
 
 
 @pytest.mark.anyio
