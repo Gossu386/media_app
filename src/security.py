@@ -72,7 +72,7 @@ def get_subject_for_token_type(
     token_type = payload.get("type")
     if token_type is None or token_type != type:
         raise create_credentials_exception(
-            f"Token type has incorrect type, expected '{type}', got '{token_type}'"
+            f"Token has incorrect type, expected '{type}', got '{token_type}'"
         )
 
     return email
