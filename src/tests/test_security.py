@@ -128,15 +128,15 @@ async def test_get_user_not_found():
 
 
 @pytest.mark.anyio
-async def test_authenticate_user(registered_user: dict):
+async def test_authenticate_user(confirmed_user: dict):
     user = await security.authenticate_user(
-        registered_user["email"], registered_user["password"]
+        confirmed_user["email"], confirmed_user["password"]
     )
 
-    assert user.email == registered_user["email"]
+    assert user.email == confirmed_user["email"]
     # Verify authenticated user has complete information
     assert hasattr(user, "id")
-    assert user.id == registered_user["id"]
+    assert user.id == confirmed_user["id"]
     assert isinstance(user.id, int)
     assert user.id > 0
     assert isinstance(user.email, str)
