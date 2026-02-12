@@ -17,6 +17,8 @@ class GlobalConfig(BaseConfig):
     DB_FORCE_ROLL_BACK: bool = (
         False  # the changes aren't written to database tak jak w testach
     )
+    MAILGUN_DOMAIN: Optional[str] = None
+    MAILGUN_API_KEY: Optional[str] = None
     LOGTAIL_API_KEY: Optional[str] = None
     INGESTING_HOST: Optional[str] = None
 
