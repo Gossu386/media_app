@@ -38,7 +38,7 @@ See license details in the [LICENSE](LICENSE) file.
 | **Pydantic / pydantic-settings** | Data validation and app configuration |
 | **python-dotenv** | Load environment variables from `.env` files |
 | **python-jose** | JWT token creation and verification |
-| **passlib[bcrypt] / bcrypt** | Password hashing and verification |
+| **bcrypt** | Password hashing and verification |
 | **python-multipart** | Handle file uploads |
 | **rich** | Pretty console output and logging |
 | **asgi-correlation-id** | Track requests via correlation IDs |
