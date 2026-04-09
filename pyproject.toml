@@ -16,7 +16,7 @@ dependencies = [
     "logtail-python",
     "python-jose",
     "python-multipart",
-    "passlib[bcrypt]",
+    "bcrypt",
     "bcrypt<4.0.0",
     "ruff",
     "black",
@@ -25,7 +25,9 @@ dependencies = [
     "anyio == 3.6.2",
     "pluggy == 1.0.0",
     "pytest-mock",
-    "pre-commit"
+    "pre-commit",
+    "aiofiles",
+    "b2sdk"
 ]
 
 [tool.ruff]
