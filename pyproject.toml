@@ -16,19 +16,27 @@ dependencies = [
     "logtail-python",
     "python-jose",
     "python-multipart",
-    "bcrypt",
+    "passlib[bcrypt]",
     "bcrypt<4.0.0",
-    "ruff",
-    "black",
-    "pytest == 7.2.2",
-    "httpx",
-    "anyio == 3.6.2",
-    "pluggy == 1.0.0",
     "pytest-mock",
     "pre-commit",
     "aiofiles",
     "b2sdk"
 ]
+
+[dependency-groups]
+dev = [
+    "ruff",
+    "black",
+]
+
+test = [
+    "pytest",
+    "httpx",
+    "pytest-mock",
+    "pyfakefs"
+]
+
 
 [tool.ruff]
 # Configure import sorting to match isort behavior
