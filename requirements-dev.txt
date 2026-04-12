@@ -1,0 +1,8 @@
+ruff
+black
+isort
+pytest == 7.2.2
+httpx
+anyio == 3.6.2
+pluggy == 1.0.0
+pytest-mock
