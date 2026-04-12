@@ -9,6 +9,7 @@ from httpx import ASGITransport, AsyncClient, Request, Response
 os.environ["ENV_STATE"] = "test"
 from src.database import database, user_table  # noqa: E402
 from src.main import app  # noqa: E402
+from src.tests.helpers import create_post  # noqa: E402
 
 
 @pytest.fixture(scope="session")
@@ -24,7 +25,7 @@ def client() -> Generator:
 @pytest.fixture(autouse=True)
 async def db() -> AsyncGenerator:
     await database.connect()
-    yield
+    yield database
     await database.disconnect()
 
 
@@ -72,3 +73,8 @@ def mock_httpx_client(mocker):
     mocked_client.return_value.__aenter__.return_value = mocked_async_client
 
     return mocked_async_client
+
+
+@pytest.fixture()
+async def created_post(async_client: AsyncClient, logged_in_token: str):
+    return await create_post("Test Post", async_client, logged_in_token)
