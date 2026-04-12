@@ -18,7 +18,6 @@ dependencies = [
     "python-multipart",
     "passlib[bcrypt]",
     "bcrypt<4.0.0",
-    "pytest-mock",
     "pre-commit",
     "aiofiles",
     "b2sdk"
