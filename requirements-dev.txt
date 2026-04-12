@@ -6,3 +6,4 @@ httpx
 anyio == 3.6.2
 pluggy == 1.0.0
 pytest-mock
+pyfakefs
